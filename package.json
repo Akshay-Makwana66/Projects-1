@@ -7,7 +7,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node src/index.js"
     },
-    "author": "Aaditya Gupta,Akshay Makwana,Dhruval Moradiya,Indrashish Roy",
+    "author": "Akshay Makwana",
     "license": "ISC",
     "dependencies": {
         "body-parser": "^1.19.0",

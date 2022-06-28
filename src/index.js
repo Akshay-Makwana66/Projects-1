@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 
 app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb+srv://IndrashishRoy:windows10@radon-cohort-cluster.gtmdsvp.mongodb.net/groupAADI-DB?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,

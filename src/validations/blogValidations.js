@@ -54,10 +54,7 @@ const blogValidations = async function (req, res, next) {
         .send({ status: false, msg: "Please enter Category as a String" });
     data.category = data.category.trim();
     let validCategory = /^\w[a-zA-Z]*$/;
-    if (!validCategory.test(data.category))
-      return res
-        .status(400)
-        .send({ status: false, msg: "The Category may contain only letters" });
+    if (!validCategory.test(data.category)) return res.status(400).send({ status: false, msg: "The Category may contain only letters" });
 
     // Checks if authorId is empty or contains valid authorId
     let authorId = req.body.authorId;
