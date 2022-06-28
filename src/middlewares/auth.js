@@ -36,7 +36,6 @@ const authorization = async function (req, res, next) {
         if (req.authorId != findBlog.authorId)return res.status(403).send({ status: false, msg:"Author is not authorized to access this data"});
       }
     }
-
     next();  
 
   } catch (error) {

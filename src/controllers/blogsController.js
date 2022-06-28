@@ -2,7 +2,6 @@ const blogsmodel = require("../models/blogsModel");
 const mongoose = require("mongoose");
 
 // ### POST /blogs
-
 const createBlogs = async function (req, res) {
   try {
     let data = req.body;
@@ -114,7 +113,6 @@ const deleteBlogsByQuery = async function (req, res) {
       if(conditions.category)filters.category={$in:conditions.category};
       if(conditions.tags) filters.tags={$all:conditions.tags};
       if(conditions.subcategory) filters.subcategory={$all:conditions.subcategory};
-  
 
       console.log(filters)
      
@@ -130,4 +128,5 @@ const deleteBlogsByQuery = async function (req, res) {
     res.status(500).send({ status: false, msg: error.message });
   }
 };
+
 module.exports = {createBlogs, getBlogs, putBlogs, deleteBlogs, deleteBlogsByQuery}

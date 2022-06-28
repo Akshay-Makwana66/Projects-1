@@ -32,20 +32,18 @@ const authorValidations = async function (req, res, next) {
 
     if (!validlname.test(data.lname))return res.status(400).send({ status: false, msg: "The last name may contain only letters" });
 
-    // Checks whether title is empty or is enter as a string or contains the enumerator values or not
-
+    // Checks whether title is empty or is enter as a string or contains the enumerator values or not.
     if (!data.title)return res.status(400).send({ status: false, msg: " Please enter Title" });
 
     if (typeof data.title !== "string")return res.status(400).send({ status: false, msg: "Please enter title as a String" });
 
     let titles = ["Mr", "Mrs", "Miss"];
-
+         
     data.title = data.title.trim();
 
     if (!titles.includes(data.title))return res.status(400).send({status: false,msg: "Please enter title as Mr, Mrs or Miss only",});
 
-    // Checks whether password is empty or is enter as a string or a valid pasword
-
+    // Checks whether password is empty or is enter as a string or a valid pasword.
     if (!data.password)return res.status(400).send({ status: false, msg: "Please enter Password" });
 
     if (typeof data.password !== "string")return res.status(400).send({ status: false, msg: " Please enter password as a String" });

@@ -5,27 +5,16 @@ const blogValidations = async function (req, res, next) {
   try {
     let data = req.body;
     //Checks whether Body is empty or not
-    if (Object.keys(data).length == 0)
-      return res
-        .status(400)
-        .send({ status: false, msg: "Body cannot be empty" });
+    if (Object.keys(data).length == 0)  return res.status(400).send({ status: false, msg: "Body cannot be empty" });
 
     // Checks if title is empty or entered as a string or contains valid Title
-    if (!data.title)
-      return res.status(400).send({ status: false, msg: "Please Enter Title" });
+    if (!data.title)  return res.status(400).send({ status: false, msg: "Please Enter Title" });
     if (typeof data.title !== "string")
-      return res
-        .status(400)
-        .send({ status: false, msg: " Please enter title as a String" });
+      return res.status(400).send({ status: false, msg: " Please enter title as a String" });
     data.title = data.title.trim();
     let validTitle = /^\d*[a-zA-Z][a-zA-Z\d\s]*$/;
     if (!validTitle.test(data.title))
-      return res
-        .status(400)
-        .send({
-          status: false,
-          msg: "The Title may contain letters and numbers, not only numbers",
-        });
+      return res.status(400).send({ status: false, msg: "The Title may contain letters and numbers, not only numbers"});
 
     // Checks if Body is empty or entered as a string
     if (!data.body)

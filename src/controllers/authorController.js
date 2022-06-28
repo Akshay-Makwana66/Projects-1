@@ -2,7 +2,6 @@ const authormodel = require("../models/authorModel");
 const jwt =require('jsonwebtoken')
 
 // ### Author API /authors
-
 const createauthor = async function (req, res) {                   
   try {
     let data= req.body
@@ -42,7 +41,7 @@ const loginAuthor= async function(req,res){
       authorId: checkCred._id.toString(),
       batch:"Radon"
     }, "project1-AADI");
-    
+    console.log(token)
     //Setting token in response header
     res.setHeader("x-api-key",token)
     res.status(201).send({status:true,data: token})

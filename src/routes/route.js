@@ -6,9 +6,10 @@ const middleware= require('../middlewares/auth')
 const authorValidations=require('../validations/authorValidations')
 const blogValidations= require('../validations/blogValidations')
 
+// #All Api's
 router.post("/authors",authorValidations.authorValidations, authorcontroller.createauthor);
 
-router.post("/login",authorcontroller.loginAuthor);
+router.post("/login",authorcontroller.loginAuthor);     
 
 router.post("/blogs",blogValidations.blogValidations,middleware.authentication,blogController.createBlogs);
 
