@@ -1,11 +1,11 @@
-const blogsmodel = require("../models/blogsModel");
+const blogsModel = require("../models/blogsModel");
 const mongoose = require("mongoose");
 
 // ### POST /blogs
 const createBlogs = async function (req, res) {
   try {
     let data = req.body;
-    let save = await blogsmodel.create(data);
+    let save = await blogsModel.create(data);
     res.status(201).send({ status: true, data: save });
     
   } catch (error) {
@@ -19,24 +19,21 @@ const createBlogs = async function (req, res) {
 const getBlogs = async function (req, res) {
   try {
     let conditions = req.query; 
-    //Checks if category is entered as a string or not  
-    if (conditions.category){
-      if(typeof conditions.category !== 'string') return res.status(400).send({ status: false, msg: "Please enter Category as a String" });}
-
-    // Checks whether author id isa valid ObjectId
+    
+    // Checks whether author id isa valid ObjectId                                                
       if(conditions.authorId) {
         if (!mongoose.isValidObjectId(conditions.authorId))return res.status(400).send({ status: false, msg: "Please Enter authorID as a valid ObjectId" })}
-
+        
     // Fetching the blogs
-    let blogs = await blogsmodel.find({$and: [conditions, { isDeleted: false }, { isPublished: true }]});
+    let blogs = await blogsModel.find({$and: [conditions, { isDeleted: false }, { isPublished: true }]});
 
     if (blogs.length == 0)return res.status(404).send({ status: false, msg: "No Blogs found" });
 
-    res.status(200).send({ status: true, data: blogs });
+    res.status(200).send({ status: true, data: blogs });  
 
   } catch (error) {
     console.log(error);
-    res.status(500).send({ status: false, msg: error.message });
+    res.status(500).send({ status: false, msg: error.message });          
   }
 };
 
@@ -44,7 +41,7 @@ const getBlogs = async function (req, res) {
 
 const putBlogs = async function (req, res) {
   try {
-    let blogId = req.params.blogId;
+    let blogId = req.params.blogId;    
     let blogData = req.body;
     if(blogData.isPublished === true){
       blogData.publishedAt= Date.now()
@@ -60,7 +57,7 @@ const putBlogs = async function (req, res) {
         isPublished: blogData.isPublished,
         publishedAt: blogData.publishedAt,
         $push: { tags: blogData.tags, subcategory: blogData.subcategory },
-      },
+      }, 
       { new: true }
     );
 
@@ -97,14 +94,16 @@ const deleteBlogs = async function (req, res) {
 // ### DELETE /blogs?queryParams
 
 const deleteBlogsByQuery = async function (req, res) {
+
   try {    
+    console.log(req)
     let conditions = req.query;
     //Checks whether query params is empty or not
     if (Object.keys(conditions).length == 0)  return res.status(400).send({ status: false, msg: "Query Params cannot be empty" });
     let filters = {
       isDeleted:false,
       authorId:req.authorId,
-      isPublished:false
+      isPublished: false  
     }
       if(conditions.authorId) {
         if(conditions.authorId != req.authorId) return res.status(403).send({ status: false, msg: "Author is not authorized to access this data"})      
@@ -113,12 +112,10 @@ const deleteBlogsByQuery = async function (req, res) {
       if(conditions.category)filters.category={$in:conditions.category};
       if(conditions.tags) filters.tags={$all:conditions.tags};
       if(conditions.subcategory) filters.subcategory={$all:conditions.subcategory};
-
-      console.log(filters)
+    
      
-    let deleteBlogs = await blogsmodel.updateMany(filters,{ $set: { isDeleted: true, deletedAt: Date.now()}});   
-    //let deleteBlogs= await blogsmodel.updateMany({isDeleted:true},{$set:{isDeleted:false,deletedAt:null}})
-    console.log(deleteBlogs);
+      let deleteBlogs = await blogsmodel.updateMany(filters,{ $set: { isDeleted: true, deletedAt: Date.now()}});   
+    //  let deleteBlogs= await blogsmodel.updateMany({isDeleted:true},{$set:{isDeleted:false,deletedAt:null}})         
     if (deleteBlogs.matchedCount == 0) {
       return res.status(404).send({ status: false, msg: "Blog Not Found" });
     }

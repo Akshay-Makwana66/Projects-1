@@ -3,7 +3,7 @@ const jwt =require('jsonwebtoken')
 
 // ### Author API /authors
 const createauthor = async function (req, res) {                   
-  try {
+  try { 
     let data= req.body
  // Creating the author document in DB
 
@@ -38,12 +38,12 @@ const loginAuthor= async function(req,res){
 
     //Creating token if e-mail and password is correct
     let token= jwt.sign({
-      authorId: checkCred._id.toString(),
+      authorId: checkCred._id.toString(),   
       batch:"Radon"
     }, "project1-AADI");
     console.log(token)
     //Setting token in response header
-    res.setHeader("x-api-key",token)
+    res.setHeader("x-api-key",token)       
     res.status(201).send({status:true,data: token})
   }catch (error) {
   res.status(500).send({ status: false, msg: error.message});

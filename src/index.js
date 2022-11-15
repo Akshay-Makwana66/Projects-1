@@ -4,9 +4,9 @@ const route = require("./routes/route");
 const mongoose = require("mongoose");
 const app = express();
 
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-mongoose.connect("mongodb+srv://IndrashishRoy:windows10@radon-cohort-cluster.gtmdsvp.mongodb.net/groupAADI-DB?retryWrites=true&w=majority",
+mongoose.connect("mongodb+srv://IndrashishRoy:windows10@radon-cohort-cluster.gtmdsvp.mongodb.net/groupAADI-DB",
     {
       useNewUrlParser: true,
     }
@@ -16,7 +16,7 @@ mongoose.connect("mongodb+srv://IndrashishRoy:windows10@radon-cohort-cluster.gtm
 
 app.use("/", route);
 
-app.listen(process.env.PORT || 3000, function () {
-  console.log("Express app running on port " + (process.env.PORT || 3000));
-});
+app.listen(3000, function () {
+  console.log("Express app running on port " + (  3000));
+});   
 

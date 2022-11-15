@@ -14,8 +14,8 @@ const authentication = async function (req, res, next) {
       if(error)return res.status(401).send({ status: false, msg: "Invalid Token" });
 
       else 
-      req.authorId = decoded.authorId;
-      next()
+      req.authorId = decoded.authorId; 
+      next()  
    });   
   } catch (error) {
     res.status(500).send({ status: false, msg: error.message });
@@ -29,11 +29,11 @@ const authorization = async function (req, res, next) {
     
     if(blogId){
 
-    if (!mongoose.isValidObjectId(blogId))return res.status(400).send({ status: false, msg: "Please enter blogID as a valid ObjectId"});
+    if (!mongoose.isValidObjectId(blogId)) return res.status(400).send({ status: false, msg: "Please enter blogID as a valid ObjectId"});
 
       let findBlog = await blogsmodel.findById(blogId);
       if (findBlog) {
-        if (req.authorId != findBlog.authorId)return res.status(403).send({ status: false, msg:"Author is not authorized to access this data"});
+        if (req.authorId != findBlog.authorId) return res.status(403).send({ status: false, msg:"Author is not authorized to access this data"});
       }
     }
     next();  
