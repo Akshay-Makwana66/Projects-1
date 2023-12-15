@@ -1,23 +1,24 @@
 const authormodel = require("../models/authorModel");
 const jwt =require('jsonwebtoken')
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10
 // ### Author API /authors
 const createauthor = async function (req, res) {                   
   try { 
-    let data= req.body
+    let data= req.body;
  // Creating the author document in DB
+ data.password = await bcrypt.hash(data.password,saltRounds)
 
     let save = await authormodel.create(data);  
 
     res.status(201).send({ status: true, data: save });  
 
   } catch (error) {
-    console.log(error)
     res.status(500).send({ status: false, msg: error.message });
   }
 };
 
-const loginAuthor= async function(req,res){
+const loginAuthor= async function(req,res){  
   try{
     let data = req.body
 
@@ -33,18 +34,25 @@ const loginAuthor= async function(req,res){
     let userPassword= data.password
 
     //Checks if the email or password is correct
-    let checkCred= await authormodel.findOne({email: userEmail,password:userPassword})
+    let checkCred= await authormodel.findOne({email: userEmail})
     if(!checkCred) return res.status(401).send({status:false, msg:"Email or password is incorrect"})
 
-    //Creating token if e-mail and password is correct
-    let token= jwt.sign({
-      authorId: checkCred._id.toString(),   
-      batch:"Radon"
-    }, "project1-AADI");
-    console.log(token)
-    //Setting token in response header
-    res.setHeader("x-api-key",token)       
-    res.status(201).send({status:true,data: token})
+    
+      let decryptPassword = await bcrypt.compare(userPassword,checkCred.password)
+      if(!decryptPassword){
+        return res.status(401).send({status:false,message:"Email or password is incorrect"})
+      }else{
+
+        //Creating token if e-mail and password is correct
+        let token= jwt.sign({
+          authorId: checkCred._id.toString(),   
+          batch:"Radon"
+        }, "project1-AADI");
+        //Setting token in response header
+        // res.setHeader("x-api-key",token)       
+        res.status(201).send({status:true,data: token})
+      }
+    
   }catch (error) {
   res.status(500).send({ status: false, msg: error.message});
   }

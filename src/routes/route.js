@@ -15,11 +15,19 @@ router.post("/login",authorcontroller.loginAuthor);
 router.post("/blogs",middleware.authentication,blogValidations.blogValidations,blogController.createBlogs);
 
 router.get("/blogs", middleware.authentication,blogController.getBlogs);
+router.get("/blogs/:id", blogController.getBlogsById);
 
-router.put("/blogs/:blogId",middleware.authentication,middleware.authorization,blogValidations.updateValidations,blogController.putBlogs);
 
-router.delete("/blogs/:blogId", middleware.authentication,middleware.authorization,blogController.deleteBlogs);
+router.put("/blogs/:id",middleware.authentication,middleware.authorization,blogValidations.updateValidations,blogController.putBlogs);
+
+router.delete("/blogs/:id", middleware.authentication,middleware.authorization,blogController.deleteBlogs);
 
 router.delete("/blogs", middleware.authentication,middleware.authorization,blogController.deleteBlogsByQuery);
 
 module.exports = router;
+
+(a,b)=>a+b;
+(1,2)
+console.log("hi");
+
+

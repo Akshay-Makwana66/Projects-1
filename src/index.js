@@ -1,12 +1,13 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const route = require("./routes/route");
 const mongoose = require("mongoose");
+const cors = require('cors');
 const app = express();
 
 
-app.use(bodyParser.json());
-mongoose.connect("mongodb+srv://IndrashishRoy:windows10@radon-cohort-cluster.gtmdsvp.mongodb.net/groupAADI-DB",
+app.use(express.json());
+app.use(cors())
+mongoose.connect("mongodb+srv://AkshayMakwana:Akshay123@cluster0.zmta9.mongodb.net/AADI-DB",
     {
       useNewUrlParser: true,
     }

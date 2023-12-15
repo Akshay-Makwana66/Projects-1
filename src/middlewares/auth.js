@@ -15,8 +15,8 @@ const authentication = async function (req, res, next) {
 
       else 
       req.authorId = decoded.authorId; 
-      next()  
-   });   
+      next()      
+   });       
   } catch (error) {
     res.status(500).send({ status: false, msg: error.message });
   }
@@ -39,10 +39,10 @@ const authorization = async function (req, res, next) {
     next();  
 
   } catch (error) {
-    
-    console.log(error);
-    res.status(500).send({ status: false, msg: error.message });
+        res.status(500).send({ status: false, msg: error.message });
   }
 };
 
 module.exports = { authentication, authorization};
+
+

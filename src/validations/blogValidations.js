@@ -53,9 +53,9 @@ const blogValidations = async function (req, res, next) {
 
 const updateValidations = async function (req, res, next) {
   try {
-    let blogId=req.params.blogId
-    if (!blogId)
-      return res.status(400).send({ status: false, msg: "Enter BlogId" });
+    // let blogId=req.params.blogId
+    // if (!blogId)
+    //   return res.status(400).send({ status: false, msg: "Enter BlogId" });
     let data = req.body;
     //Checks whether Body is empty or not
     if (Object.keys(data).length == 0)

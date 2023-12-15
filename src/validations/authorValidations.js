@@ -14,7 +14,7 @@ const authorValidations = async function (req, res, next) {
     if (typeof data.fname !== "string")return res.status(400).send({ status: false, msg: " Please enter fname as a String" });
 
     let validfname = /^\w[a-zA-Z.]*$/;
-
+   
     data.fname = data.fname.trim();
 
     if (!validfname.test(data.fname))return res.status(400).send({ status: false, msg: "The fname may contain only letters" });
