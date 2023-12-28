@@ -2,7 +2,7 @@ const authormodel = require("../models/authorModel");
 
 const authorValidations = async function (req, res, next) {
   try {
-    let data = req.body;
+    let data = req.body; 
     // Checks whether body is empty or not
 
     if (Object.keys(data).length == 0)return res.status(400).send({ status: false, msg: "Body cannot be empty" });
