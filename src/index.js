@@ -18,7 +18,6 @@ mongoose.connect(process.env.MONGODB_URL,
   .catch((err) => console.log(err));
   
 app.use("/", route);     
-console.log(port);
 app.listen(port, function () {
   console.log("Express app running on port " + ( port));
 });   

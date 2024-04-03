@@ -15,8 +15,8 @@ const authentication = async function (req, res, next) {
 
       else 
       req.authorId = decoded.authorId; 
-      next()      
-   });       
+      next()       
+   });             
   } catch (error) {
     res.status(500).send({ status: false, msg: error.message });
   }

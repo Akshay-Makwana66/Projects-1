@@ -26,8 +26,6 @@ router.delete("/blogs", middleware.authentication,middleware.authorization,blogC
 
 module.exports = router;
 
-(a,b)=>a+b;
-(1,2)
-console.log("hi");
+
 
 

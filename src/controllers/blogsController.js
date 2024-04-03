@@ -25,7 +25,7 @@ const getBlogs = async function (req, res) {
         
     // Fetching the blogs
     let blogs = await blogsModel.find({$and: [conditions, { isDeleted: false }]});
-
+        
     if (blogs.length == 0)return res.status(404).send({ status: false, msg: "No Blogs found" });
 
     res.status(200).send({ status: true, data: blogs });  
@@ -71,12 +71,15 @@ const putBlogs = async function (req, res) {
       {
         title: blogData.title,
         body: blogData.body,
+        tags: blogData.tags,
+        category:blogData.category,
+        subcategory: blogData.subcategory, 
         isPublished: blogData.isPublished,
         publishedAt: blogData.publishedAt,
-        $push: { tags: blogData.tags, subcategory: blogData.subcategory },
       }, 
       { new: true }
     );
+      
 
     if(!updatedBlog) return res.status(404).send({status:false,msg:"No blogs found"})
 
@@ -84,7 +87,7 @@ const putBlogs = async function (req, res) {
   } catch (error) {
     console.log(error);
     res.status(500).send({ status: false, msg: error.message });
-  }
+  } 
 };
 
 // ### DELETE /blogs/:id
@@ -125,9 +128,9 @@ const deleteBlogsByQuery = async function (req, res) {
         if(conditions.authorId != req.authorId) return res.status(403).send({ status: false, msg: "Author is not authorized to access this data"})      
       }
 
+      if(conditions.tags) filters.tags={$in:conditions.tags};
       if(conditions.category)filters.category={$in:conditions.category};
-      if(conditions.tags) filters.tags={$all:conditions.tags};
-      if(conditions.subcategory) filters.subcategory={$all:conditions.subcategory};
+      if(conditions.subcategory) filters.subcategory={$in:conditions.subcategory};
     
      
       let deleteBlogs = await blogsModel.updateMany(filters,{ $set: { isDeleted: true, deletedAt: Date.now()}});   

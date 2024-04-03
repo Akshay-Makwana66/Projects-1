@@ -14,7 +14,7 @@ const createauthor = async function (req, res) {
     res.status(201).send({ status: true, data: save });  
 
   } catch (error) {
-    res.status(500).send({ status: false, msg: error.message });
+    res.status(500).send({ status: false, message: error.message });
   }
 };
 
@@ -23,19 +23,16 @@ const loginAuthor= async function(req,res){
     let data = req.body
 
     // Checks whether body is empty or not
-    if (Object.keys(data).length == 0)return res.status(400).send({ status: false, msg: "Body cannot be empty"});
+    if (Object.keys(data).length == 0)return res.status(400).send({ status: false, message: "Body cannot be empty"});
 
     // Checks whether email is entered or not
-    if (!data.email) return res.status(400).send({ status: false, msg: "Please enter E-mail"});
+    if (!data.email || !data.password) return res.status(400).send({ status: false, message: "Please enter Email and Password"});
     let userEmail= data.email
-
-     // Checks whether password is entered or not
-    if (!data.password) return res.status(400).send({ status: false, msg: "Please enter Password" }); 
     let userPassword= data.password
 
     //Checks if the email or password is correct
     let checkCred= await authormodel.findOne({email: userEmail})
-    if(!checkCred) return res.status(401).send({status:false, msg:"Email or password is incorrect"})
+    if(!checkCred) return res.status(401).send({status:false, message:"Email or password is incorrect"})
 
     
       let decryptPassword = await bcrypt.compare(userPassword,checkCred.password)
@@ -54,7 +51,7 @@ const loginAuthor= async function(req,res){
       }
     
   }catch (error) {
-  res.status(500).send({ status: false, msg: error.message});
+  res.status(500).send({ status: false, message: error.message});
   }
 }
 
