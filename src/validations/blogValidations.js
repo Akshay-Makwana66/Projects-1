@@ -5,28 +5,28 @@ const blogValidations = async function (req, res, next) {
   try {
     let data = req.body;
     //Checks whether Body is empty or not
-    if (Object.keys(data).length == 0)  return res.status(400).send({ status: false, message: "Body cannot be empty" });
+    if (Object.keys(data).length == 0)  return res.status(400).send({ status: false, message: "*Body cannot be empty" });
 
     // Checks if title is empty or entered as a string or contains valid Title
-    if (!data.title)  return res.status(400).send({ status: false, message: "Please Enter Title" });
-    if (typeof data.title !== "string") return res.status(400).send({ status: false, message: " Please enter title as a String" });
+    if (!data.title)  return res.status(400).send({ status: false, message: "*Please Enter Title" });
+    if (typeof data.title !== "string") return res.status(400).send({ status: false, message: "*Please enter title as a String" });
     data.title = data.title.trim();
     let validTitle = /^\d*[a-zA-Z][a-zA-Z\d\s]*$/;
     if (!validTitle.test(data.title))
-      return res.status(400).send({ status: false, message: "The Title may contain letters and numbers, not only numbers"});
+      return res.status(400).send({ status: false, message: "*The Title may contain letters and numbers, not only numbers"});
 
     // Checks if Body is empty or entered as a string
-    if (!data.body)  return res.status(400).send({ status: false, message: "Please Enter Body" });
-    if (typeof data.body !== "string") return res.status(400).send({ status: false, message: " Please enter body as a String " });
+    if (!data.body)  return res.status(400).send({ status: false, message: "*Please Enter Body" });
+    if (typeof data.body !== "string") return res.status(400).send({ status: false, message: "*Please enter body as a String" });
     data.body = data.body.trim();
-    if (data.body.length <= 10)  return res.status(400).send({status: false,message: "The body should contain at least 10 characters"});
+    if (data.body.length <= 10)  return res.status(400).send({status: false,message: "*The body should contain at least 10 characters"});
 
     // Checks if category is empty or entered as a string or contains valid Category
-    if (!data.category) return res.status(400).send({ status: false, message: "Please Enter Category" });
-    if (typeof data.category !== "string")  return res.status(400).send({ status: false, message: "Please enter Category as a String" });
+    if (!data.category) return res.status(400).send({ status: false, message: "*Please Enter Category" });
+    if (typeof data.category !== "string")  return res.status(400).send({ status: false, message: "*Please enter Category as a String" });
     data.category = data.category.trim();
     let validCategory = /^\w[a-zA-Z]*$/;
-    if (!validCategory.test(data.category)) return res.status(400).send({ status: false, message: "The Category may contain only letters" });
+    if (!validCategory.test(data.category)) return res.status(400).send({ status: false, message: "*The Category may contain only letters" });
 
     // we are assigning authorId of decoded token 
       req.body.authorId= req.authorId
@@ -37,7 +37,7 @@ const blogValidations = async function (req, res, next) {
       if (typeof data.isPublished !== "boolean")
         return res.status(400).send({
           status: false,
-          message: "Please mention isPublished as True or False",
+          message: "*Please mention isPublished as True or False",
         });
       if (data.isPublished == true) {
         let date = Date.now();
@@ -61,14 +61,14 @@ const updateValidations = async function (req, res, next) {
     if (Object.keys(data).length == 0)
       return res
         .status(400)
-        .send({ status: false, message: "Body cannot be empty" });
+        .send({ status: false, message: "*Body cannot be empty" });
 
     // Checks if title is empty or entered as a string or contains valid Title
     if (data.title) {
       if (typeof data.title !== "string")
         return res
           .status(400)
-          .send({ status: false, message: " Please enter title as a String" });
+          .send({ status: false, message: "*Please enter title as a String" });
       data.title = data.title.trim();
       let validTitle = /^\d*[a-zA-Z][a-zA-Z\d\s]*$/;
       if (!validTitle.test(data.title))
@@ -76,7 +76,7 @@ const updateValidations = async function (req, res, next) {
           .status(400)
           .send({
             status: false,
-            message: "The Title may contain only letters and numbers",
+            message: "*The Title may contain only letters and numbers",
           });
     }
 
@@ -85,21 +85,21 @@ const updateValidations = async function (req, res, next) {
       if (typeof data.body !== "string")
         return res
           .status(400)
-          .send({ status: false, message: " Please enter body as a String" });
+          .send({ status: false, message: "*Please enter body as a String" });
       data.body = data.body.trim();
       if (data.body.length <= 10)
         return res
           .status(400)
           .send({
             status: false,
-            message: "The body should contain at least 10 characters",
+            message: "*The body should contain at least 10 characters",
           });
     }
     if (data.isPublished) {
       if (typeof data.isPublished !== "boolean")
         return res
           .status(400)
-          .send({ status: false, message: " Please enter isPublished as Boolean" });
+          .send({ status: false, message: "*Please enter isPublished as Boolean" });
     }
 
     next();

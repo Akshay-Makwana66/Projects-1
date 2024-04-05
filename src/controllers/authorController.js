@@ -23,21 +23,21 @@ const loginAuthor= async function(req,res){
     let data = req.body
 
     // Checks whether body is empty or not
-    if (Object.keys(data).length == 0)return res.status(400).send({ status: false, message: "Body cannot be empty"});
+    if (Object.keys(data).length == 0)return res.status(400).send({ status: false, message: "*Body cannot be empty"});
 
     // Checks whether email is entered or not
-    if (!data.email || !data.password) return res.status(400).send({ status: false, message: "Please enter Email and Password"});
+    if (!data.email || !data.password) return res.status(400).send({ status: false, message: "*Please enter Email and Password"});
     let userEmail= data.email
     let userPassword= data.password
 
     //Checks if the email or password is correct
     let checkCred= await authormodel.findOne({email: userEmail})
-    if(!checkCred) return res.status(401).send({status:false, message:"Email or password is incorrect"})
+    if(!checkCred) return res.status(401).send({status:false, message:"*Email or password is incorrect"})
 
     
       let decryptPassword = await bcrypt.compare(userPassword,checkCred.password)
       if(!decryptPassword){
-        return res.status(401).send({status:false,message:"Email or password is incorrect"})
+        return res.status(401).send({status:false,message:"*Email or password is incorrect"})
       }else{
 
         //Creating token if e-mail and password is correct
