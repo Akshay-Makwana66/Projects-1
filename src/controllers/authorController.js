@@ -14,7 +14,7 @@ const createauthor = async function (req, res) {
     res.status(201).send({ status: true, data: save });  
 
   } catch (error) {
-    res.status(500).send({ status: false, message: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 };
 
@@ -51,7 +51,7 @@ const loginAuthor= async function(req,res){
       }
     
   }catch (error) {
-  res.status(500).send({ status: false, message: error.message});
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 }
 

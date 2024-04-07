@@ -67,8 +67,7 @@ const authorValidations = async function (req, res, next) {
     next();
     
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: false, message: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 };
 

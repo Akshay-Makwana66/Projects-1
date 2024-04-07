@@ -21,13 +21,24 @@ const blogValidations = async function (req, res, next) {
     data.body = data.body.trim();
     if (data.body.length <= 10)  return res.status(400).send({status: false,message: "*The body should contain at least 10 characters"});
 
+
+    // Checks if tags is empty or entered as a string or contains valid Category
+    if (!data.tags) return res.status(400).send({ status: false, message: "*Please Enter Tags" });
+    if (typeof data.tags !== "string")  return res.status(400).send({ status: false, message: "*Please enter tags as a String" });
+    data.tags = data.tags.trim();
+   
     // Checks if category is empty or entered as a string or contains valid Category
     if (!data.category) return res.status(400).send({ status: false, message: "*Please Enter Category" });
     if (typeof data.category !== "string")  return res.status(400).send({ status: false, message: "*Please enter Category as a String" });
     data.category = data.category.trim();
-    let validCategory = /^\w[a-zA-Z]*$/;
-    if (!validCategory.test(data.category)) return res.status(400).send({ status: false, message: "*The Category may contain only letters" });
-
+    // let validCategory = /^\w[a-zA-Z]*$/;
+    // if (!validCategory.test(data.category)) return res.status(400).send({ status: false, message: "*The Category may contain only letters" });
+    
+    // Checks if subCategory is empty or entered as a string or contains valid subCategory
+    if (!data.subcategory) return res.status(400).send({ status: false, message: "*Please Enter Subcategory" });
+    if (typeof data.subcategory !== "string")  return res.status(400).send({ status: false, message: "*Please enter subcategory as a String" });
+    data.subcategory = data.subcategory.trim();
+   
     // we are assigning authorId of decoded token 
       req.body.authorId= req.authorId
     
@@ -46,8 +57,7 @@ const blogValidations = async function (req, res, next) {
     }
     next();
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: false, message: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 };
 
@@ -104,8 +114,7 @@ const updateValidations = async function (req, res, next) {
 
     next();
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: false, message: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 };
 module.exports = { blogValidations, updateValidations };

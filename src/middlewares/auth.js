@@ -18,7 +18,7 @@ const authentication = async function (req, res, next) {
       next()       
    });             
   } catch (error) {
-    res.status(500).send({ status: false, msg: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 };
 
@@ -39,7 +39,7 @@ const authorization = async function (req, res, next) {
     next();  
 
   } catch (error) {
-        res.status(500).send({ status: false, msg: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 };
 

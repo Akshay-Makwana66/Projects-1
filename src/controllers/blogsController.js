@@ -9,7 +9,7 @@ const createBlogs = async function (req, res) {
     res.status(201).send({ status: true, data: save });
     
   } catch (error) {
-    res.status(500).send({ status: false, msg: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 };
 
@@ -31,8 +31,7 @@ const getBlogs = async function (req, res) {
     res.status(200).send({ status: true, data: blogs });  
 
   } catch (error) {        
-    console.log(error);   
-    res.status(500).send({ status: false, msg: error.message });          
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});    
   }
 };
 
@@ -48,8 +47,7 @@ const getBlogsById = async function (req, res) {
     res.status(200).send({ status: true, data: blogs });  
 
   } catch (error) {   
-    console.log(error);
-    res.status(500).send({ status: false, msg: error.message });          
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});        
   }
 };
 
@@ -84,8 +82,7 @@ const putBlogs = async function (req, res) {
 
     res.status(200).send({ status: true, data: updatedBlog });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: false, msg: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   } 
 };
 
@@ -105,8 +102,7 @@ const deleteBlogs = async function (req, res) {
     }
     res.status(200).send({ status: true, msg: "*Document is deleted" });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: false, msg: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 };
 
@@ -139,8 +135,7 @@ const deleteBlogsByQuery = async function (req, res) {
     }
     res.status(200).send({ status: true, msg: "*Document is deleted" });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: false, msg: error.message });
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
 };
 
