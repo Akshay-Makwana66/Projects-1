@@ -1,4 +1,6 @@
 const authormodel = require("../models/authorModel");
+const blogsModel = require("../models/blogsModel");
+
 const jwt =require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 const saltRounds = 10
@@ -55,4 +57,40 @@ const loginAuthor= async function(req,res){
   }
 }
 
-module.exports = { createauthor,loginAuthor };
+const getUserName = async (req, res) => {
+  try {
+      let user = await authormodel.findOne({ _id: req.authorId });
+      if (!user) {
+          return res.status(404).send({ status: false, message: "user not found" });
+      } else {
+          let capitalizedFirstName = user.fname.charAt(0).toUpperCase() + user.fname.slice(1); // Capitalize first letter of first name
+          let capitalizedLastName = user.lname.charAt(0).toUpperCase() + user.lname.slice(1); // Capitalize first letter of last name
+          let userName = `${capitalizedFirstName} ${capitalizedLastName}`; // Combine with last name
+          return res.status(200).send({ status: true, name: userName });
+      }
+  } catch (error) {
+      res.status(500).send({ status: false, err: error.message, message: "Sorry for the inconvenience caused" });
+  }
+}
+
+const getPosterName = async (req, res) => {
+  try {
+    let blogId = req.params.id; 
+    
+    // Fetching the blogs
+    let postName = await blogsModel.findOne({_id:blogId}).populate({path:'authorId',select:'fname lname'})
+    if(!postName){
+      return res.status(404).send({ status: false, message: "*No Blogs found" });
+    } else {
+      let capitalizedFirstName = postName.authorId.fname.charAt(0).toUpperCase() + postName.authorId.fname.slice(1); // Capitalize first letter of first name
+      let capitalizedLastName = postName.authorId.lname.charAt(0).toUpperCase() + postName.authorId.lname.slice(1); // Capitalize first letter of last name
+      let postname = `${capitalizedFirstName} ${capitalizedLastName}`; // Combine with last name
+      return res.status(200).send({ status: true, postername: postname });
+    }
+  } catch (error) {   
+    res.status(500).send({ status: false, err: error.message, message: "Sorry for the inconvenience caused" });        
+  }
+}
+
+
+module.exports = { createauthor,loginAuthor ,getUserName,getPosterName};

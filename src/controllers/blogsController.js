@@ -51,6 +51,22 @@ const getBlogsById = async function (req, res) {
   }
 };
 
+const getMyBlogs = async function (req, res) {
+  try {
+    
+    // Fetching the blogs
+    let blogs = await blogsModel.find({authorId:req.authorId,isDeleted:false});
+    if (blogs.length == 0)return res.status(404).send({ status: false, msg: "*No Blogs found" });
+
+    res.status(200).send({ status: true, data: blogs });  
+
+  } catch (error) {   
+    res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});        
+  }
+};
+
+
+
 // ### PUT /blogs/:id
 
 const putBlogs = async function (req, res) {
@@ -98,9 +114,9 @@ const deleteBlogs = async function (req, res) {
       { $set: { isDeleted: true, deletedAt: Date.now() } }
     );
     if (!blog) {
-      return res.status(404).send({ status: false, msg: "*Blog Not Found" });
+      return res.status(404).send({ status: false, message: "*Blog Not Found" });
     }
-    res.status(200).send({ status: true, msg: "*Document is deleted" });
+    res.status(200).send({ status: true, message: "*Document is deleted" });
   } catch (error) {
     res.status(500).send({ status: false, err: error.message,message:"Sorry for the inconvenience caused"});
   }
@@ -139,4 +155,4 @@ const deleteBlogsByQuery = async function (req, res) {
   }
 };
 
-module.exports = {createBlogs, getBlogs,getBlogsById, putBlogs, deleteBlogs, deleteBlogsByQuery}
+module.exports = {createBlogs, getBlogs,getBlogsById,getMyBlogs, putBlogs, deleteBlogs, deleteBlogsByQuery}

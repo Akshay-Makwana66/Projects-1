@@ -10,11 +10,17 @@ const blogValidations= require('../validations/blogValidations')
 
 router.post("/authors",authorValidations.authorValidations, authorcontroller.createauthor);
 
-router.post("/login",authorcontroller.loginAuthor);     
+router.post("/login",authorcontroller.loginAuthor);  
+
+router.get("/getUserName",middleware.authentication,authorcontroller.getUserName);
+
+router.get("/getPosterName/:id",middleware.authentication,authorcontroller.getPosterName);     
 
 router.post("/blogs",middleware.authentication,blogValidations.blogValidations,blogController.createBlogs);
 
 router.get("/blogs", middleware.authentication,blogController.getBlogs);
+router.get("/getMyBlogs", middleware.authentication,blogController.getMyBlogs);
+
 router.get("/blogs/:id", blogController.getBlogsById);
 
 
