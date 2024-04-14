@@ -17,7 +17,10 @@ mongoose.connect(process.env.MONGODB_URL,
   .then(() => console.log("MongoDb is connected"))
   .catch((err) => console.log(err));
   
-app.use("/", route);     
+app.use("/", route);   
+app.use("/**",(req,res)=>{
+      res.status(400).send("write valid url")
+})  
 app.listen(port, function () {
   console.log("Express app running on port " + ( port));
 });   
