@@ -1,34 +1,27 @@
 const express = require("express");
 const router = express.Router();
-const authorcontroller = require("../controllers/authorController");
-const blogController = require("../controllers/blogsController");
-const middleware= require('../middlewares/auth')
-const authorValidations=require('../validations/authorValidations')
-const blogValidations= require('../validations/blogValidations')
+const { createauthor,loginAuthor ,getUserName,getPosterName} = require("../controllers/authorController");
+const {createBlogs, getBlogs,getBlogsById,getMyBlogs, putBlogs, deleteBlogs, deleteBlogsByQuery} = require("../controllers/blogsController");
+const { authentication, authorization}= require('../middlewares/auth')
+const { authorValidations }=require('../validations/authorValidations')
+const { blogValidations, updateValidations }= require('../validations/blogValidations')
 
 // #All Api's
 
-router.post("/authors",authorValidations.authorValidations, authorcontroller.createauthor);
+// Author Api's-------------------
+router.post("/authors",authorValidations, createauthor);
+router.post("/login",loginAuthor);  
+router.get("/getUserName",authentication,getUserName);
+router.get("/getPosterName/:id",authentication,getPosterName);     
 
-router.post("/login",authorcontroller.loginAuthor);  
-
-router.get("/getUserName",middleware.authentication,authorcontroller.getUserName);
-
-router.get("/getPosterName/:id",middleware.authentication,authorcontroller.getPosterName);     
-
-router.post("/blogs",middleware.authentication,blogValidations.blogValidations,blogController.createBlogs);
-
-router.get("/blogs", middleware.authentication,blogController.getBlogs);
-router.get("/getMyBlogs", middleware.authentication,blogController.getMyBlogs);
-
-router.get("/blogs/:id", blogController.getBlogsById);
-
-
-router.put("/blogs/:id",middleware.authentication,middleware.authorization,blogValidations.updateValidations,blogController.putBlogs);
-
-router.delete("/blogs/:id", middleware.authentication,middleware.authorization,blogController.deleteBlogs);
-
-router.delete("/blogs", middleware.authentication,middleware.authorization,blogController.deleteBlogsByQuery);
+//Author Blogs Api's
+router.post("/blogs",authentication,blogValidations,createBlogs);
+router.get("/blogs", authentication,getBlogs);
+router.get("/getMyBlogs", authentication,getMyBlogs);
+router.get("/blogs/:id", getBlogsById);
+router.put("/blogs/:id",authentication,authorization,updateValidations,putBlogs);
+router.delete("/blogs/:id", authentication,authorization,deleteBlogs);
+router.delete("/blogs", authentication,authorization,deleteBlogsByQuery);
 
 module.exports = router;
 
