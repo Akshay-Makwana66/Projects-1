@@ -56,7 +56,7 @@ const getMyBlogs = async function (req, res) {
     
     // Fetching the blogs
     let blogs = await blogsModel.find({authorId:req.authorId,isDeleted:false});
-    if (blogs.length == 0)return res.status(404).send({ status: false, msg: "You did not post anything, till now." });
+    if (blogs.length == 0)return res.status(404).send({ status: false, message: "You did not post anything, till now." });
 
     res.status(200).send({ status: true, data: blogs });  
 
